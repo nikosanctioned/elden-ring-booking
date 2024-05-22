@@ -1,4 +1,11 @@
 import SelectCountry from "@/app/_components/SelectCountry";
+export const metadata = {
+  title: {
+    template: "%s / Guest profile",
+    default: "Guest profile",
+  },
+  description: "Update your guest profile",
+};
 
 export default function Page() {
   // CHANGE
