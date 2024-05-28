@@ -1,8 +1,9 @@
+"use client";
 import { isWithinInterval } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
-function isAlreadyBooked(range, datesArr) {
+function isAlreadyBooked(range: any, datesArr: Date[]) {
   return (
     range.from &&
     range.to &&

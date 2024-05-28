@@ -2,10 +2,11 @@ import { getCountries } from "@/app/_lib/data-service";
 
 // Let's imagine your colleague already built this component 😃
 
-async function SelectCountry({ defaultCountry, name, id, className }) {
+async function SelectCountry({ defaultCountry, name, id, className }: any) {
   const countries = await getCountries();
   const flag =
-    countries.find((country) => country.name === defaultCountry)?.flag ?? "";
+    countries.find((country: any) => country.name === defaultCountry)?.flag ??
+    "";
 
   return (
     <select
@@ -16,7 +17,7 @@ async function SelectCountry({ defaultCountry, name, id, className }) {
       className={className}
     >
       <option value="">Select country...</option>
-      {countries.map((c) => (
+      {countries.map((c: any) => (
         <option key={c.name} value={`${c.name}%${c.flag}`}>
           {c.name}
         </option>

@@ -2,12 +2,23 @@ import Counter from "@/app/_components/Counter";
 import CabinList from "../_components/CabinList";
 import { Suspense } from "react";
 import Spinner from "../_components/Spinner";
+import { se } from "date-fns/locale";
+import Filter from "../_components/Filter";
 
 export const metadata = {
   title: "Cabins Page",
 };
+export const revalidate = 86400;
 
-export default async function Page() {
+export default function Page({
+  searchParams,
+}: {
+  searchParams: URLSearchParams;
+}) {
+  const searchParamsFin = new URLSearchParams(searchParams);
+  console.log(searchParams);
+  const filter = searchParamsFin?.get("capacity") ?? "all";
+
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -21,8 +32,11 @@ export default async function Page() {
         home away from home. The perfect spot for a peaceful, calm vacation.
         Welcome to paradise.
       </p>
-      <Suspense fallback={<Spinner />}>
-        <CabinList />
+      <div className="flex justify-end mb-10">
+        <Filter />
+      </div>
+      <Suspense fallback={<Spinner />} key={filter}>
+        <CabinList filter={filter} />
       </Suspense>
     </div>
   );
