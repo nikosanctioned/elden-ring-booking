@@ -1,9 +1,8 @@
-import Counter from "@/app/_components/Counter";
-import CabinList from "../_components/CabinList";
 import { Suspense } from "react";
-import Spinner from "../_components/Spinner";
-import { se } from "date-fns/locale";
+import CabinList from "../_components/CabinList";
 import Filter from "../_components/Filter";
+import ReservationReminder from "../_components/ReservationReminder";
+import Spinner from "../_components/Spinner";
 
 export const metadata = {
   title: "Cabins Page",
@@ -37,6 +36,7 @@ export default function Page({
       </div>
       <Suspense fallback={<Spinner />} key={filter}>
         <CabinList filter={filter} />
+        <ReservationReminder />
       </Suspense>
     </div>
   );
