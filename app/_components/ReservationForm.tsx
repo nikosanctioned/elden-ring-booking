@@ -4,7 +4,6 @@ import { useReservation } from "./ReservationContext";
 
 function ReservationForm({ cabin, user }: { cabin: Cabin; user: any }) {
   const { range } = useReservation();
-  console.log(range);
   // CHANGE
   const { maxCapacity } = cabin;
 

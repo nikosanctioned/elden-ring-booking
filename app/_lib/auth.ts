@@ -1,5 +1,7 @@
+import { tr } from "date-fns/locale";
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
+import { createGuest, getGuest } from "./data-service";
 
 const authConfig = {
   providers: [
@@ -12,11 +14,29 @@ const authConfig = {
     authorized({ auth, request }: { auth: any; request: any }) {
       return !!auth?.user;
     },
+    async signIn({ user, account }: { user: any; account: any }) {
+      try {
+        const existingGuest = await getGuest(user.email);
+        if (!existingGuest)
+          await createGuest({ email: user.email, fullName: user.name });
+        return true;
+      } catch (error) {
+        console.error("Error signing in", error);
+        return false;
+      }
+    },
+    async session({ session, user }: { session: any; user: any }) {
+      const guest = await getGuest(session.user.email);
+      console.log("guest888", guest);
+      session.user.guestId = guest.id;
+      return session;
+    },
   },
   pages: {
     signIn: "/login",
   },
 };
+
 export const {
   auth,
   handlers: { GET, POST },

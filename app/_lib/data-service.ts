@@ -160,7 +160,6 @@ export async function getCountries() {
       "https://countriesnow.space/api/v0.1/countries/flag/images"
     );
     const countries = await res.json();
-    // console.log("countries", countries);
     return countries.data;
   } catch (e) {
     throw new Error(`Countries could not be loaded: ${e}`);

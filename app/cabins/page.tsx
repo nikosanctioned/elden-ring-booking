@@ -15,7 +15,6 @@ export default function Page({
   searchParams: URLSearchParams;
 }) {
   const searchParamsFin = new URLSearchParams(searchParams);
-  console.log(searchParams);
   const filter = searchParamsFin?.get("capacity") ?? "all";
 
   return (
