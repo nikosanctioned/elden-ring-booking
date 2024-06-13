@@ -82,6 +82,7 @@ export async function updateBooking(formData: FormData): Promise<any> {
     console.error(error);
     throw new Error("Booking could not be updated");
   }
+  revalidatePath("/account/reservations/edit/" + bookingId);
   redirect("/account/reservations");
 }
 
