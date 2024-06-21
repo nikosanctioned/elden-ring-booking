@@ -32,7 +32,36 @@ export async function updateGuest(formData: FormData) {
   }
   revalidatePath("/account/profile");
 }
-export async function deleteReservation(bookingId: string) {
+export async function createBooking(bookingData: any, formData: FormData) {
+  const session = await auth();
+  const user = session?.user as User;
+  if (!session) throw new Error("Not authenticated");
+  const newBooking = {
+    ...bookingData,
+    numGuests: Number(formData.get("numGuests")?.toString()),
+    observations: formData.get("observations")?.toString().slice(0, 1000),
+    guestId: user?.guestId,
+    extrasPrice: 0,
+    totalPrice: bookingData.cabinPrice,
+    isPaid: false,
+    hasBreakfast: false,
+    status: "unconfirmed",
+  };
+
+  const { data, error } = await supabase
+    .from("bookings")
+    .insert([newBooking])
+    .select()
+    .single();
+  console.log("newlyCreatedBooking", data);
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be created");
+  }
+  revalidatePath(`/cabins/${bookingData.cabinId}`);
+  redirect("/cabins/thankyou");
+}
+export async function deleteBooking(bookingId: string) {
   const session = await auth();
   const user = session?.user as User;
   if (!session) throw new Error("Not authenticated");
