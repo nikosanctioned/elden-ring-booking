@@ -1,8 +1,7 @@
-import NextAuth from "next-auth";
+import NextAuth, { User } from "next-auth";
 import Google from "next-auth/providers/google";
 import { createGuest, getGuest } from "./data-service";
-import { User as OriginalUser } from "../../node_modules/@auth/core/src/types";
-export interface User extends OriginalUser {
+export interface GuestUser extends User {
   guestId?: string | null;
 }
 
@@ -17,7 +16,7 @@ const authConfig = {
     authorized({ auth, request }: { auth: any; request: any }) {
       return !!auth?.user;
     },
-    async signIn({ user, account }: { user: User; account: any }) {
+    async signIn({ user, account }: { user: GuestUser; account: any }) {
       try {
         const existingGuest = await getGuest(user.email ?? "");
         if (!existingGuest)
@@ -28,7 +27,7 @@ const authConfig = {
         return false;
       }
     },
-    async session({ session, user }: { session: any; user: User }) {
+    async session({ session, user }: { session: any; user: GuestUser }) {
       const guest = await getGuest(session.user.email);
       session.user.guestId = guest.id;
       return session;

@@ -1,6 +1,6 @@
 "use server";
 
-import { User, auth, signIn, signOut } from "@/app/_lib/auth";
+import { GuestUser, auth, signIn, signOut } from "@/app/_lib/auth";
 import { supabase } from "./supabase";
 import { revalidatePath } from "next/cache";
 import { getBookings } from "./data-service";
@@ -18,7 +18,7 @@ export async function updateGuest(formData: FormData) {
     throw new Error("Invalid national ID");
   }
   const updateData = { nationality, countryFlag, nationalID };
-  const user = session?.user as User;
+  const user = session?.user as GuestUser;
   const { data, error } = await supabase
     .from("guests")
     .update(updateData)
@@ -34,7 +34,7 @@ export async function updateGuest(formData: FormData) {
 }
 export async function createBooking(bookingData: any, formData: FormData) {
   const session = await auth();
-  const user = session?.user as User;
+  const user = session?.user as GuestUser;
   if (!session) throw new Error("Not authenticated");
   const newBooking = {
     ...bookingData,
@@ -53,7 +53,7 @@ export async function createBooking(bookingData: any, formData: FormData) {
     .insert([newBooking])
     .select()
     .single();
-  console.log("newlyCreatedBooking", data);
+
   if (error) {
     console.error(error);
     throw new Error("Booking could not be created");
@@ -63,7 +63,7 @@ export async function createBooking(bookingData: any, formData: FormData) {
 }
 export async function deleteBooking(bookingId: string) {
   const session = await auth();
-  const user = session?.user as User;
+  const user = session?.user as GuestUser;
   if (!session) throw new Error("Not authenticated");
   const guestBookngs = await getBookings(user?.guestId ?? "");
   const guestBookingsIds = guestBookngs.map((booking) => booking.id);
@@ -85,7 +85,7 @@ export async function deleteBooking(bookingId: string) {
 export async function updateBooking(formData: FormData): Promise<any> {
   console.log("updateBooking", formData);
   const session = await auth();
-  const user = session?.user as User;
+  const user = session?.user as GuestUser;
   if (!session) throw new Error("Not authenticated");
 
   const guestBookngs = await getBookings(user?.guestId ?? "");

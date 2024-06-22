@@ -1,7 +1,6 @@
 import { eachDayOfInterval } from "date-fns";
 import { supabase } from "./supabase";
 import { notFound } from "next/navigation";
-import { User } from "./auth";
 
 export interface Cabin {
   id: number;

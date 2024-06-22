@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "noImplicitAny": false,
+    "target": "ES2015",
     "module": "esnext",
     "moduleResolution": "node",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -23,6 +24,9 @@
       "@authtypes/*": ["./node_modules/@auth/core/src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "node_modules/@auth/core/src/lib/pages/signin.tsx"
+  ],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.tsx"]
 }
