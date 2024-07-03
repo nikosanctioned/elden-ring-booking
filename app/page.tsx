@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import bg from "@/public/sasha.jpg";
+import bg from "@/public/elden_ring.jpeg";
 export default function Page() {
   return (
     <main className="mt-24">
